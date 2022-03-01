@@ -92,7 +92,7 @@ The notebooks you will run depends on certain Python libraries that will need to
 
     ![In the lab cluster, the Libraries tab is selected and the Install New button is highlighted.](images/azure-databricks-cluster-libraries.png "Install New")
 
-4. In the Library Source, select **PyPi** and in the Package text box type `azureml-sdk[databricks]` and select **Install**.
+4. In the Library Source, select **PyPi** and in the Package text box type `azureml-sdk[databricks]' and select **Install**. **(Repete adding cryptography==3.3.1)**
 
     ![The Install Library dialog showing the PyPi item selected as the source and the azureml-sdk value entered in the package textbox.](images/azure-databricks-install-library.png "Install Library")
 
