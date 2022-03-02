@@ -1,118 +1,4 @@
-![Microsoft Cloud Workshops](https://github.com/Microsoft/MCW-Template-Cloud-Workshop/raw/main/Media/ms-cloud-workshop.png "Microsoft Cloud Workshops")
-
-<div class="MCWHeader1">
-MLOps
-</div>
-
-<div class="MCWHeader2">
-Hands-on lab step-by-step
-</div>
-
-<div class="MCWHeader3">
-September 2021
-</div>
-
-Information in this document, including URL and other Internet Web site references, is subject to change without notice. Unless otherwise noted, the example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious, and no association with any real company, organization, product, domain name, e-mail address, logo, person, place or event is intended or should be inferred. Complying with all applicable copyright laws is the responsibility of the user. Without limiting the rights under copyright, no part of this document may be reproduced, stored in or introduced into a retrieval system, or transmitted in any form or by any means (electronic, mechanical, photocopying, recording, or otherwise), or for any purpose, without the express written permission of Microsoft Corporation.
-
-Microsoft may have patents, patent applications, trademarks, copyrights, or other intellectual property rights covering subject matter in this document. Except as expressly provided in any written license agreement from Microsoft, the furnishing of this document does not give you any license to these patents, trademarks, copyrights, or other intellectual property.
-
-The names of manufacturers, products, or URLs are provided for informational purposes only and Microsoft makes no representations and warranties, either expressed, implied, or statutory, regarding these manufacturers or the use of the products with any Microsoft technologies. The inclusion of a manufacturer or product does not imply endorsement of Microsoft of the manufacturer or product. Links may be provided to third party sites. Such sites are not under the control of Microsoft and Microsoft is not responsible for the contents of any linked site or any link contained in a linked site, or any changes or updates to such sites. Microsoft is not responsible for webcasting or any other form of transmission received from any linked site. Microsoft is providing these links to you only as a convenience, and the inclusion of any link does not imply endorsement of Microsoft of the site or the products contained therein.
-
-© 2020 Microsoft Corporation. All rights reserved.
-
-Microsoft and the trademarks listed at <https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/Usage/General.aspx> are trademarks of the Microsoft group of companies. All other trademarks are property of their respective owners.
-
-**Contents**
-
-<!-- TOC -->
-
-- [MLOps hands-on lab step-by-step](#mlops-hands-on-lab-step-by-step)
-  - [Abstract and learning objectives](#abstract-and-learning-objectives)
-  - [Overview](#overview)
-  - [Solution architecture](#solution-architecture)
-  - [Requirements](#requirements)
-  - [Before the hands-on lab](#before-the-hands-on-lab)
-  - [Exercise 1: Setup New Project in Azure DevOps](#exercise-1-setup-new-project-in-azure-devops)
-    - [Task 1: Sign in to Azure DevOps Project](#task-1-sign-in-to-azure-devops-project)
-    - [Task 2: Import Quickstart code from a GitHub Repo](#task-2-import-quickstart-code-from-a-github-repo)
-    - [Task 3: Update the build YAML file](#task-3-update-the-build-yaml-file)
-    - [Task 4: Create new Service Connection](#task-4-create-new-service-connection)
-  - [Exercise 2: Setup and Run the Build Pipeline](#exercise-2-setup-and-run-the-build-pipeline)
-    - [Task 1: Setup Build Pipeline](#task-1-setup-build-pipeline)
-    - [Task 2: Run the Build Pipeline](#task-2-run-the-build-pipeline)
-    - [Task 3: Review Build Outputs](#task-3-review-build-outputs)
-  - [Exercise 3: Setup the Release Pipeline](#Exercise-3-Setup-the-Release-Pipeline)
-    - [Task 1: Create an Empty Job for the Release Pipeline](#Task-1-Create-an-Empty-Job-for-the-Release-Pipeline)
-    - [Task 2: Add Build Artifacts for the Release Pipeline](#Task-2-Add-Build-Artifacts-for-the-Release-Pipeline)
-    - [Task 3: Setup Agent Pool for Test Deployment stage](#Task-3-Setup-Agent-Pool-for-Test-Deployment-stage)
-    - [Task 4: Add Install the AML CLI task to Test Deployment stage](#Task-4-Add-Install-the-AML-CLI-task-to-Test-Deployment-stage)
-    - [Task 5: Add AzureML Model Deploy task to Test Deployment stage](#Task-5-Add-AzureML-Model-Deploy-task-to-Test-Deployment-stage)
-    - [Task 6: Clone the Test Deployment stage](#Task-6-Clone-the-Test-Deployment-stage)
-    - [Task 7: Configure the Production Deployment stage](#task-7-Configure-the-Production-Deployment-stage)
-    - [Task 8: Enable Pre-deployment Approvals](#Task-8-Enable-Pre-deployment-Approvals)
-    - [Task 9: Save the Release Pipeline](#Task-9-Save-the-Release-Pipeline)
-  - [Exercise 4: Create Release for the Production Release Pipeline](#Exercise-4-Create-Release-for-the-Production-Release-Pipeline)
-    - [Task 1: Create new release](#task-1-Create-new-release)
-    - [Task 2: Monitor the Test Deployment stage](#task-2-Monitor-the-Test-Deployment-stage)
-  - [Exercise 5: Testing the deployed solution and review deployed model datasheet](#Exercise-5-Testing-the-deployed-solution-and-review-deployed-model-datasheet)
-    - [Task 1: Setup the notebooks environment](#Task-1-Setup-the-notebooks-environment)
-    - [Task 2: Test the deployment and review model datasheet](#Task-2-Test-the-deployment-and-review-model-datasheet)
-  - [Exercise 6: Deploy the Production Deployment stage](#Exercise-6-Deploy-the-Production-Deployment-stage)
-    - [Task 1: Approve the Production Deployment](#Task-1-Approve-the-Production-Deployment)
-    - [Task 2: Monitor the Production Deployment stage](#Task-2-Monitor-the-Production-Deployment-stage)
-  - [Exercise 7 (Optional): Examining deployed model performance](#exercise-7-optional-examining-deployed-model-performance)
-    - [Task 1: Activate App Insights and data collection on the deployed model](#task-1-activate-app-insights-and-data-collection-on-the-deployed-model)
-    - [Task 2: Check Application Insights telemetry](#task-2-check-application-insights-telemetry)
-    - [Task 3: Check the data collected](#task-3-check-the-data-collected)
-  - [Exercise 8 (Optional): Creating and evaluating compliance classification models](#exercise-8-optional-creating-and-evaluating-compliance-classification-models)
-    - [Task 1: Create the classification model using a notebook](#task-1-create-the-classification-model-using-a-notebook)
-  - [Exercise 9 (Optional): Registering the model](#exercise-9-optional-registering-the-model)
-    - [Task 1: Register Model using Azure Machine Learning Python SDK](#task-1-register-model-using-azure-machine-learning-python-sdk)
-    - [Task 2: Register Model from Azure Machine Learning studio](#task-2-register-model-from-azure-machine-learning-studio)
-  - [After the hands-on lab](#after-the-hands-on-lab)
-    - [Task 1: Clean up lab resources](#task-1-clean-up-lab-resources)
-
-<!-- /TOC -->
-
-# MLOps hands-on lab step-by-step
-
-## Abstract and learning objectives
-
-In this hands-on lab, you will learn how Wide World Importers (WWI) can leverage Deep Learning technologies to scan through their vehicle specification documents to find compliance issues with new regulations. You will standardize the model format to ONNX and observe how this simplifies inference runtime code, enabling pluggability of different models and targeting a broad range of runtime environments, and most importantly, improves inferencing speed over the native model. You will build a DevOps pipeline to coordinate retrieving the latest best model from the model registry, packaging the web application, deploying the web application, and inferencing web service. After a first successful deployment, you will make updates to both the model, and the web application, and execute the pipeline once to achieve an updated deployment. You will also learn how to monitor the model's performance after it is deployed, so WWI can be proactive with performance issues.
-
-At the end of this hands-on lab, you will be better able to implement end-to-end solutions that fully operationalize deep learning models, inclusive of all application components that depend on the model.
-
-## Overview
-
-WWI delivers innovative solutions for manufacturers. They specialize in identifying and solving problems for manufacturers that can run the range from automating away mundane but time-intensive processes to delivering cutting edge approaches that provide new opportunities for their manufacturing clients. WWI has decades specializing in data science and application development that until now were separate units. They have seen the value created by the ad-hoc synergies between data science and app development, but they would like to unlock the greater, long term value as they formalize their approach by combining the two units into one, and follow one standardized process for operationalizing their innovations.
-
-As their first effort of this combined initiative, they would like to define a process for operationalizing deep learning that encompasses all phases of the application life cycle along with model creation and deployment of a deep learning model. For this first proof of concept (PoC), they would like to focus on component compliance. Specifically, they are looking to leverage Deep Learning technologies with Natural Language Processing (NLP) techniques to scan through vehicle specification documents to find compliance issues with new regulations. Even though this first scenario is focused on vehicle components, they believe this approach will generalize to any scenario involving an inventory of components, which all of their manufacturing customers deal with. The component descriptions, which are free form text, are entered and managed via a web application. This web application will take new component descriptions entered by authorized technicians and label the component as compliant or non-compliant, based on the text.
-
-They want to ensure the overall process they create enables them to update both the underlying model and the web app in one, unified pipeline. They also want to be able to monitor the model's performance after it is deployed so they can be proactive with performance issues.
-
-## Solution architecture
-
-![The lab solution architecture as described by the text that follows.](media/architecture-overview.png 'Solution Architecture')
-
-The overall approach used in this lab is to orchestrate continuous integration and continuous delivery Azure Pipelines from Azure DevOps. These pipelines are triggered by changes to artifacts that describe a machine learning pipeline, that is created with the Azure Machine Learning SDK. In the lab, you make a change to the model training script that executes the Azure Pipelines Build Pipeline, which trains the model and creates the container image. Then this triggers an Azure Pipelines Release pipeline that deploys the model as a web service to AKS, by using the Docker image that was created in the Build pipeline. Once in production, the scoring web service is monitored using a combination of Application Insights and Azure Storage.
-
-## Requirements
-
-1. Microsoft Azure subscription must be pay-as-you-go or MSDN.
-
-   - Trial subscriptions will not work. You will run into issues with Azure resource quota limits.
-
-   - Subscriptions with access limited to a single resource group will not work. You will need the ability to deploy multiple resource groups.
-
-2. An Azure DevOps account.
-
-## Before the hands-on lab
-
-Refer to the [Before the hands-on lab setup guide](./Before&#32;the&#32;HOL&#32;-&#32;MLOps.md) before continuing to the lab exercises.
-
 ## Exercise 1: Setup New Project in Azure DevOps
-
-Duration: 20 minutes
 
 ### Task 1: Sign in to Azure DevOps Project
 
@@ -196,8 +82,6 @@ Duration: 20 minutes
 
 ## Exercise 2: Setup and Run the Build Pipeline
 
-Duration: 45 minutes
-
 ### Task 1: Setup Build Pipeline
 
 1. From left navigation select **Pipelines, Pipelines** and then select **Create pipeline**.
@@ -263,8 +147,6 @@ Duration: 45 minutes
     ![A list of registered models that reference the selected dataset is displayed.](media/devops-build-outputs-05.png 'Registered dataset model references in Azure Machine Learning studio')
 
 ## Exercise 3: Setup the Release Pipeline
-
-Duration: 20 minutes
 
 ### Task 1: Create an Empty Job for the Release Pipeline
 
@@ -405,8 +287,6 @@ Duration: 20 minutes
 
 ## Exercise 4: Create Release for the Production Release Pipeline
 
-Duration: 20 minutes
-
 ### Task 1: Create new release
 
 1. Select **Releases, Production Release Pipeline, Create release**.
@@ -434,8 +314,6 @@ Duration: 20 minutes
     ![The Test Deployment task logs are displayed. Within the logs the Scoring URI is highlighted.](media/devops-test-pipelines-07.png 'Test Deployment Task Logs')
 
 ## Exercise 5: Testing the deployed solution and review deployed model datasheet
-
-Duration: 15 minutes
 
 Documenting the right information in the machine learning process is key to making responsible decisions at each stage. Datasheets are a way to document machine learning assets that are used and created as part of the machine learning lifecycle. [Annotation and Benchmarking on Understanding and Transparency of Machine Learning Lifecycles (ABOUT ML), an initiative from the Partnership in AI (PAI)](https://www.partnershiponai.org/about-ml), provides a set of guidelines for machine learning system developers to develop, test, and implement machine learning system documentation. Developers can use Azure Machine Learning SDK to implement datasheets for models as part of the model registration processes in Azure Machine Learning workspace. During model registration, the tags parameter in the register method of the Model class can be leveraged to document the necessary datasheet information recommended in the established guidelines.
 
@@ -501,8 +379,6 @@ In this exercise, you verify that the release of the application works. You will
 
 ## Exercise 6: Deploy the Production Deployment stage
 
-Duration: 15 minutes
-
 ### Task 1: Approve the Production Deployment
 
 1. From the email that was sent to the approvers email address, select **View approval**.
@@ -530,8 +406,6 @@ Duration: 15 minutes
     ![The Production Deployment task logs are displayed. Within the logs the Scoring URI and API Key is highlighted.](media/devops-test-pipelines-07c.png 'Consumption Info')
 
 ## Exercise 7 (Optional): Examining deployed model performance
-
-Duration: 15 minutes
 
 In this exercise, you learn how to monitor the performance of a deployed model.
 
@@ -597,79 +471,9 @@ In this exercise, you learn how to monitor the performance of a deployed model.
 
     ![In the Storage Explorer, the modeldata container is selected beneath BLOB containers. The inputs.csv file is selected in the list of files at the path specified above.](media/model-telemetry-07.png 'Storage Explorer - inputs.csv')
 
-## Exercise 8 (Optional): Creating and evaluating compliance classification models
 
-Duration: 40 minutes
-
-In this exercise, you create a model for classifying component text as compliant or non-compliant. This tutorial uses the cloud notebook server in your Azure Machine Learning workspace for an install-free and pre-configured experience, available in Azure Machine Learning studio.
-
-### Task 1: Create the classification model using a notebook
-
-1. Download the [**Deep Learning with Text.ipynb**](./notebooks/Deep&#32;Learning&#32;with&#32;Text.ipynb) notebook to your computer, by selecting the **Raw** view in GitHub, and then **right-click + Save as**. Please ensure that the extension of the saved file is `.ipynb`. This is the notebook you will step through executing in this lab.
-
-2. In the Azure Machine Learning Studio, navigate to **Notebooks**, and select **Upload files** option in the top menu.
-
-3. Browse your local computer for the downloaded notebook, **Deep Learning with Text.ipynb** and then select **MCW-MLOps** folder as the target folder. Select **Upload**.
-
-4. On the top bar, select the **mlops-compute** compute instance to use to run the notebook. Select the **Edit** drop down, and then select **Edit in Jupyter**. The new browser window will be opened.
-
-5. Follow the instructions within the notebook to complete the lab.
-
-6. Back to the [Azure Machine Learning Studio](https://ml.azure.com), in **Notebooks**, under the **MCW-MLOps** folder, navigate to the **model** folder and download the **model.onnx** file to your local disk. We will use the downloaded model file in the next exercise.
-
-   > **Note**: If the downloaded file name is changed to **utf-8 model.onnx** or **notebooks_model_model.onnx**, then rename the file back to `model.onnx`.
-
-   > **Note**: The **model.onnx** file is generated during the execution of the notebook at the previous step (step 1). When running the notebook, make sure the execution is successful, and the file is correctly created.
-
-## Exercise 9 (Optional): Registering the model
-
-Duration: 15 minutes
-
-In this exercise, you explore the approaches you can take to managing the model versions, their association with Experiment Runs, and how you can retrieve the models both programmatically and via the [Azure Machine Learning studio](https://ml.azure.com).
-
-### Task 1: Register Model using Azure Machine Learning Python SDK
-
-1. Download the [**Register Model.ipynb**](./notebooks/Register&#32;Model.ipynb) notebook to your computer, by selecting the **Raw** view in GitHub, and then **right-click + Save as**. Please ensure that the extension of the saved file is `.ipynb`. This is the notebook you will step through executing in this exercise.
-
-2. In the Studio, navigate to **Notebooks**, and select **Upload files** option in the top menu.
-
-3. Browse your local computer for the downloaded notebook, **Register Model.ipynb** and then select **MCW-MLOps** as the target folder. Select **Upload**.
-
-4. Select the notebook `Register Model.ipynb`. On the top bar, select the **mlops-compute** compute instance to use to run the notebook. Select the **Edit** drop down, and then select **Edit in Jupyter**. The new browser window will be opened.
-
-5. Follow the instructions within the notebook to complete the lab.
-
-6. Navigate back to the [Azure Machine Learning studio](https://ml.azure.com) either directly or via the [Azure Portal](https://portal.azure.com). Make sure you select the Azure Machine Learning workspace that you created from the notebook. Open your **Models** section and observe the **version 1** of the registered model: `compliance-classifier`.
-
-    ![In Azure Machine Learning Studio, from the left menu, Models is selected. In the Model List, the compliance-classifier with the version of 1 is highlighted.](media/model-registry-01.png 'Registered Model: compliance-classifier')
-
-### Task 2: Register Model from Azure Machine Learning studio
-
-1. In  [Azure Machine Learning studio](https://ml.azure.com), open your **Models** section and select **+ Register model**.
-
-    ![In Auzre Machine Learning Studio, Models is selected in the left menu. In the taskbar of the Model list, the + Register Model button is selected.](media/model-registry-02.png 'Register Model in Azure Machine Learning studio')
-  
-2. Provide the following input to the **Register a model** dialog, and then select **Register**.
-
-    - Name: `compliance-classifier`
-
-    - Description: `Deep learning model to classify the descriptions of car components as compliant or non-compliant.`
-
-    - Model Framework: **ONNX**
-
-    - Model Framework Version: `1.3.0`
-
-    - Model file: Select the `model.onnx` file from your local disk.
-
-    ![The Register a Model form is displayed populated with the preceding values.](media/model-registry-03.png 'Register a model Dialog')
-
-3. Navigate to your **Models** section and observe the **version 2** of the registered model: **compliance-classifier**.
-
-    ![The Model list is displayed showing two rows containing both versions of the compliance-classifier model. Version 2 of the compliance-classifier model is highlighted in the list.](media/model-registry-04.png 'Registered Model: compliance-classifier version 2')
 
 ## After the hands-on lab
-
-Duration: 5 minutes
 
 To avoid unexpected charges, it is recommended that you clean up all of your lab resources when you complete the lab.
 
