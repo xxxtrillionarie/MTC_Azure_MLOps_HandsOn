@@ -1,23 +1,5 @@
 # MLOps before the hands-on lab setup guide
 
-## Requirements
-
-1. Azure subscription. You will need a valid and active Azure account to complete the quickstarts. If you do not have one, you can sign up for a [free trial](https://azure.microsoft.com/en-us/free/).
-
-   - The Microsoft Azure subscription must be pay-as-you-go or MSDN.
-
-   - Trial subscriptions will not work. You will run into issues with Azure resource quota limits.
-
-   - Subscriptions with access limited to a single resource group will not work. You will need the ability to deploy multiple resource groups.
-
-2. Azure DevOps subscription. You will need a valid and active Azure DevOps account to complete the quickstarts. If you do not have one, you can sign up for a [free account](https://azure.microsoft.com/en-us/services/devops/).
-
-   > **Note**: You will need privileges to create projects on the DevOps account. Also, you need privileges to create Service Principal in the tenet. This translates to **Ensure that the user has 'Owner' or 'User Access Administrator' permissions on the Subscription**.
-
-3. Azure Machine Learning service workspace. An Azure Machine Learning workspace is a foundational resource in the cloud that you use to experiment, train, and deploy machine learning models. It ties your Azure subscription and resource group to an easily consumed object in the service.
-
-4. Azure Machine Learning compute instance. The compute instance is created during Exercise 1 from the hands-on lab. It used as your fully configured and managed development environment in the cloud to run the quickstart integrated notebooks uploaded in your workspace file share.
-
 ## Before the hands-on lab
 
 ### Task 1: Create New Project in Azure DevOps
